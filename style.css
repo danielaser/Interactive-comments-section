@@ -1,0 +1,166 @@
+/* General style */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-color: hsl(228, 33%, 97%);
+}
+
+.container {
+    display: flow;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    margin: 4em auto;
+    background-color: hsl(228, 33%, 97%);
+}
+
+/* Text style */
+
+@font-face {
+    font-family: 'RubikBold';
+    src: url('font/Rubik-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('font/Rubik-Regular.ttf') format('truetype');
+}
+
+.blue-text {
+    font-size: 16px;
+    font-family: 'RubikBold', sans-serif;
+    color: hsl(238, 40%, 52%);
+}
+
+.gray-text {
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+    color: hsl(222, 8%, 60%);
+}
+
+.dark-text {
+    font-size: 16px;
+    font-family: 'RubikBold', sans-serif;
+    color: hsl(212, 24%, 26%);
+}
+
+.red-text {
+    font-size: 16px;
+    font-family: 'RubikBold', sans-serif;
+    color: hsl(358, 79%, 66%);
+}
+
+.white-text {
+    font-size: 16px;
+    font-family: 'Rubik', sans-serif;
+    color: hsl(0, 0%, 100%);
+}
+
+/* Card style */
+
+.card {
+    width: 100%;
+    display: flex;
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 15px;
+    margin-top: 2em;
+}
+
+.card-box {
+    display: flow-root;
+    margin: 1.5em;
+    padding: 1em;
+    background-color: hsl(228, 33%, 97%);
+    border-radius: 15px;
+    width: 3em;
+}
+
+.card-body {
+    display: flow-root;
+    width: 80%;
+}
+
+.card-head {
+    display: flex;
+    margin: 1em;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.card-principal {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 45%;
+}
+
+.card-message {
+    margin: 1em;
+}
+
+.card-reply:hover {
+    cursor: pointer;
+}
+
+/* button and input style */
+.card-comment {
+    margin-top: 1em;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 1.5em;
+    height: 8em;
+}
+
+.comment-input {
+    border-radius: 10px;
+    border: 1px solid hsl(222, 8%, 60%);
+    width: 70%;
+    height: 100%;
+}
+
+.send-button {
+    background-color: hsl(238, 40%, 52%);
+    border-radius: 10px;
+    width: 12%;
+    height: 2.5em;
+    border: transparent;
+}
+
+.send-button:hover {
+    cursor: pointer;
+}
+
+/* Image, ilustrations and icons style */
+
+.user-image {
+    border-radius: 50%;
+    background-color: aquamarine;
+    height: 2.5em;
+    width: 2.5em;
+}
+
+.plus-icon {
+    content: url(./images/icon-plus.svg);
+}
+
+.minus-icon {
+    content: url(./images/icon-minus.svg);
+}
+
+/* Footer style */
+
+.attribution {
+    font-size: 11px;
+    text-align: center;
+}
+
+.attribution a {
+    color: hsl(228, 45%, 44%);
+}
