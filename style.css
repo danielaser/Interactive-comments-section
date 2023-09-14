@@ -121,6 +121,20 @@ h1 {
     cursor: pointer;
 }
 
+.card-replies {
+
+    width: 85%;
+    display: flex;
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 15px;
+    margin-top: 2em;
+    margin-left: auto;
+}
+
+.content {
+    display: contents;
+}
+
 /* button and input style */
 .card-comment {
     margin-top: 1em;
@@ -128,6 +142,10 @@ h1 {
     align-items: flex-start;
     padding: 1.5em;
     height: 8em;
+    width: 100%;
+    display: flex;
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 15px;
 }
 
 .comment-input {
@@ -135,6 +153,8 @@ h1 {
     border: 1px solid hsl(222, 8%, 60%);
     width: 70%;
     height: 100%;
+    padding: 0.5em;
+    resize: none;
 }
 
 .send-button {
@@ -147,13 +167,13 @@ h1 {
 
 .send-button:hover {
     cursor: pointer;
+    background-color: hsl(238, 48%, 44%);
 }
 
 /* Image, ilustrations and icons style */
 
 .user-image {
     border-radius: 50%;
-    background-color: aquamarine;
     height: 2.5em;
     width: 2.5em;
 }
@@ -165,6 +185,7 @@ h1 {
     top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 15px;
 }
 
 .minus-icon {
@@ -174,11 +195,22 @@ h1 {
     top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 15px;
 }
 
 .reply-icon {
     content: url(./images/icon-reply.svg);
     margin-right: 0.5em;
+}
+
+.edit-icon {
+    content: url(./images/icon-edit.svg);
+    margin-right: 0.5em;
+}
+
+.plus-icon:hover,
+.minus-icon:hover {
+    cursor: pointer;
 }
 
 /* Footer style */
