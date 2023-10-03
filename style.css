@@ -16,7 +16,7 @@ body {
     align-items: center;
     width: 48%;
     height: 100%;
-    margin: 4em auto;
+    margin: 2em auto;
     background-color: hsl(228, 33%, 97%);
 }
 
@@ -115,6 +115,7 @@ h1 {
 
 .card-message {
     margin-top: 1em;
+    width: 100%;
 }
 
 .card-reply:hover {
