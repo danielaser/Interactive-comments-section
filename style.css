@@ -118,10 +118,6 @@ h1 {
     width: 100%;
 }
 
-.card-reply:hover {
-    cursor: pointer;
-}
-
 .card-replies {
 
     width: 85%;
@@ -199,6 +195,29 @@ h1 {
     width: 15px;
 }
 
+.plus-icon:hover,
+.minus-icon:hover {
+    cursor: pointer;
+}
+
+/* Reply, Delete, Edit icons and buttons*/
+
+.card-reply {
+    display: flex;
+}
+
+.card-reply:hover {
+    cursor: pointer;
+}
+
+.card-delete {
+    margin-left: 12em;
+}
+
+.card-delete-reply {
+    margin-left: 6em;
+}
+
 .reply-icon {
     content: url(./images/icon-reply.svg);
     margin-right: 0.5em;
@@ -209,9 +228,83 @@ h1 {
     margin-right: 0.5em;
 }
 
-.plus-icon:hover,
-.minus-icon:hover {
+.delete-icon {
+    content: url(./images/icon-delete.svg);
+    margin-right: 0.5em;
+}
+
+/* Modal Style */
+.modal {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.modal-content {
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 308px;
+    padding: 1em;
+    border-radius: 5px;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    font-size: 1.5rem;
+    animation-name: animatemodal;
+    animation-duration: 0.4s;
+}
+
+.modal-textTitle {
+    margin-bottom: 0.5em;
+    font-size: 20px;
+}
+
+.modal-text {
+    margin-bottom: 1em;
+}
+
+.modal-cancelButton,
+.modal-deleteButton {
+    border-radius: 10px;
+    border: none;
+    padding: 10px 14px;
+    font-size: 1rem;
+}
+
+.modal-cancelButton {
+    background-color: hsl(222, 8%, 60%);
+}
+
+.modal-deleteButton {
+    background-color: hsl(358, 79%, 66%);
+    margin-left: 1em;
+}
+
+.modal-cancelButton:hover,
+.modal-deleteButton:hover {
     cursor: pointer;
+}
+
+/* animation part */
+@keyframes animatemodal {
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+
+    to {
+        top: 50%;
+        opacity: 1;
+    }
 }
 
 /* Footer style */
