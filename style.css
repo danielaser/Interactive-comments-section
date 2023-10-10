@@ -154,17 +154,46 @@ h1 {
     resize: none;
 }
 
+.edit-input {
+    border-radius: 10px;
+    border: 1px solid hsl(222, 8%, 60%);
+    width: 100%;
+    height: 6em;
+    padding: 0.5em;
+    resize: none;
+}
+
 .send-button {
     background-color: hsl(238, 40%, 52%);
     border-radius: 10px;
     width: 12%;
     height: 2.5em;
-    border: transparent;
+    border: none;
 }
 
 .send-button:hover {
     cursor: pointer;
     background-color: hsl(238, 48%, 44%);
+}
+
+.update-button {
+    background-color: hsl(238, 40%, 52%);
+    border-radius: 10px;
+    width: 15%;
+    height: 2.5em;
+    border: none;
+    float: right;
+}
+
+.update-button:hover {
+    cursor: pointer;
+    background-color: hsl(238, 48%, 44%);
+}
+
+.label {
+    position: absolute;
+    z-index: 2;
+    padding: 0.5em;
 }
 
 /* Image, ilustrations and icons style */
@@ -208,6 +237,21 @@ h1 {
 
 .card-reply:hover {
     cursor: pointer;
+}
+
+.disable-edit {
+    pointer-events: none;
+    display: flex;
+}
+
+.disable-delete {
+    pointer-events: none;
+    display: flex;
+    margin-left: 12em;
+}
+
+.disableReply-delete {
+    margin-left: 6em;
 }
 
 .card-delete {

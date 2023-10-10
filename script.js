@@ -47,6 +47,7 @@ function createCommentHTML(jsonElementComment) {
 
     const cardBody = document.createElement('div');
     cardBody.setAttribute('class', 'card-body');
+    cardBody.id = 'cardBody' + jsonElementComment.id;
 
     const cardHead = document.createElement('div');
     cardHead.setAttribute('class', 'card-head');
@@ -68,23 +69,11 @@ function createCommentHTML(jsonElementComment) {
     createdAt.setAttribute('class', 'gray-text');
     createdAt.textContent = jsonElementComment.createdAt;
 
-    //Only when is my user EDIT
-    const cardEdit = document.createElement('span');
-    cardEdit.setAttribute('class', 'card-reply');
-
-    const editLink = document.createElement('p');
-    editLink.setAttribute('class', 'blue-text');
-    editLink.textContent = `Edit`;
-
-    const editIcon = document.createElement('image');
-    editIcon.setAttribute('class', 'edit-icon');
-    editIcon.alt = "Ilustration from Frontend mentor";
-
     //Only when is my user DELETE
     const cardDelete = document.createElement('span');
     cardDelete.setAttribute('class', 'card-reply card-delete');
     cardDelete.addEventListener("click", () => {
-        deleteComment();
+        deleteComment(jsonElementComment.id, true);
     });
 
     const deleteLink = document.createElement('p');
@@ -94,6 +83,21 @@ function createCommentHTML(jsonElementComment) {
     const deleteIcon = document.createElement('image');
     deleteIcon.setAttribute('class', 'delete-icon');
     deleteIcon.alt = "Ilustration from Frontend mentor";
+
+    //Only when is my user EDIT
+    const cardEdit = document.createElement('span');
+    cardEdit.setAttribute('class', 'card-reply');
+    cardEdit.addEventListener("click", () => {
+        editComment(cardBody, cardMessage, content, jsonElementComment, true, cardEdit, cardDelete);
+    });
+
+    const editLink = document.createElement('p');
+    editLink.setAttribute('class', 'blue-text');
+    editLink.textContent = `Edit`;
+
+    const editIcon = document.createElement('image');
+    editIcon.setAttribute('class', 'edit-icon');
+    editIcon.alt = "Ilustration from Frontend mentor";
 
     const cardReply = document.createElement('span');
     cardReply.setAttribute('class', 'card-reply');
@@ -111,6 +115,7 @@ function createCommentHTML(jsonElementComment) {
 
     const cardMessage = document.createElement('div');
     cardMessage.setAttribute('class', 'card-message');
+    cardMessage.id = 'cardMessage' + jsonElementComment.id;
 
     const content = document.createElement('p');
     content.id = 'content' + jsonElementComment.id;
@@ -118,7 +123,6 @@ function createCommentHTML(jsonElementComment) {
     content.textContent = jsonElementComment.content;
 
     //appenchild
-
     container.appendChild(card);
     container.appendChild(commentReplyContainer);
     card.appendChild(cardBox);
@@ -190,6 +194,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
 
     const cardBody = document.createElement('div');
     cardBody.setAttribute('class', 'card-body');
+    cardBody.id = 'cardBody' + jsonElementReply.id;
 
     const cardHead = document.createElement('div');
     cardHead.setAttribute('class', 'card-head');
@@ -211,6 +216,36 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     createdAt.setAttribute('class', 'gray-text');
     createdAt.textContent = jsonElementReply.createdAt;
 
+    //Only when is my user DELETE
+    const cardDelete = document.createElement('span');
+    cardDelete.setAttribute('class', 'card-reply card-delete-reply');
+    cardDelete.addEventListener("click", () => {
+        deleteComment(jsonElementReply.id, false);
+    });
+
+    const deleteLink = document.createElement('p');
+    deleteLink.setAttribute('class', 'red-text');
+    deleteLink.textContent = `Delete`;
+
+    const deleteIcon = document.createElement('image');
+    deleteIcon.setAttribute('class', 'delete-icon');
+    deleteIcon.alt = "Ilustration from Frontend mentor";
+
+    //Only when is my user EDIT
+    const cardEdit = document.createElement('span');
+    cardEdit.setAttribute('class', 'card-reply');
+    cardEdit.addEventListener("click", () => {
+        editComment(cardBody, cardMessage, content, jsonElementReply, false, cardEdit, cardDelete);
+    });
+
+    const editLink = document.createElement('p');
+    editLink.setAttribute('class', 'blue-text');
+    editLink.textContent = `Edit`;
+
+    const editIcon = document.createElement('image');
+    editIcon.setAttribute('class', 'edit-icon');
+    editIcon.alt = "Ilustration from Frontend mentor";
+
     const cardReply = document.createElement('span');
     cardReply.setAttribute('class', 'card-reply');
     cardReply.addEventListener("click", () => {
@@ -227,34 +262,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     const cardMessage = document.createElement('div');
     cardMessage.setAttribute('class', 'card-message');
 
-    //Only when is my user EDIT
-    const cardEdit = document.createElement('span');
-    cardEdit.setAttribute('class', 'card-reply');
-
-    const editLink = document.createElement('p');
-    editLink.setAttribute('class', 'blue-text');
-    editLink.textContent = `Edit`;
-
-    const editIcon = document.createElement('image');
-    editIcon.setAttribute('class', 'edit-icon');
-    editIcon.alt = "Ilustration from Frontend mentor";
-
-    //Only when is my user DELETE
-    const cardDelete = document.createElement('span');
-    cardDelete.setAttribute('class', 'card-reply card-delete-reply');
-    cardDelete.addEventListener("click", () => {
-        deleteComment();
-    });
-
-    const deleteLink = document.createElement('p');
-    deleteLink.setAttribute('class', 'red-text');
-    deleteLink.textContent = `Delete`;
-
-    const deleteIcon = document.createElement('image');
-    deleteIcon.setAttribute('class', 'delete-icon');
-    deleteIcon.alt = "Ilustration from Frontend mentor";
-
-    const replyingTo = document.createElement('span');
+    const replyingTo = document.createElement('label');
     replyingTo.setAttribute('class', 'blue-text');
     replyingTo.id = 'replyingTo' + jsonElementReply.id;
     replyingTo.textContent = `@${jsonElementReply.replyingTo} `;
@@ -265,7 +273,6 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     content.id = 'contentReply' + jsonElementReply.id;
 
     //appenchild
-
     commentReplyContainer.appendChild(cardReplies);
     cardReplies.appendChild(cardBox);
     cardBox.appendChild(plusIcon);
@@ -360,7 +367,6 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
 
     const cardEditReply = document.createElement('div');
     cardEditReply.setAttribute('class', 'card-comment');
-    //cardEditReply.id = myJSONData.comments.replies.id;
 
     const currentUserImage = document.createElement('img');
     currentUserImage.setAttribute('class', 'user-image');
@@ -368,7 +374,6 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
     currentUserImage.alt = "Ilustration fron Frontend Mentor";
 
     const inputReply = document.createElement('textarea');
-    //inputReply.id = 'inputReply' + myJSONData.comments.replies.id;
     inputReply.id = 'inputReply';
     inputReply.setAttribute('class', 'comment-input gray-text');
     inputReply.placeholder = "Add a reply...";
@@ -424,18 +429,16 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
         const index = myJSONData.comments.findIndex(object => {
             return object.id === cardParentCommentID;
         });
-
         myJSONData.comments[index].replies.push(newReplyObj);
         createResponseHTML(newReplyObj, cardParentCommentID);
         cardEditReply.remove();
     });
-
     cardEditReply.appendChild(currentUserImage);
     cardEditReply.appendChild(inputReply);
     cardEditReply.appendChild(sendReplyButton);
 }
 
-function deleteComment() {
+function deleteComment(cardIdCommentxReplyDelete, isComment) {
 
     const modal = document.getElementById('modal');
     modal.style.display = "block";
@@ -463,7 +466,14 @@ function deleteComment() {
     modalDeleteButton.setAttribute('class', 'white-text modal-deleteButton');
     modalDeleteButton.textContent = `YES, DELETE`;
     modalDeleteButton.addEventListener("click", () => {
-
+        if (isComment == true) {
+            const card = document.getElementById('cardComment' + cardIdCommentxReplyDelete);
+            card.remove();
+        } else {
+            const cardReplies = document.getElementById('cardReplies' + cardIdCommentxReplyDelete);
+            cardReplies.remove();
+        }
+        modal.style.display = "none";
     });
 
     modal.appendChild(modalContent);
@@ -477,9 +487,58 @@ function deleteComment() {
             modal.style.display = 'none';
         }
     });
-
 }
 
+function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isComment, cardEdit, cardDelete) {
+
+    let replyingTo;
+    let replyToEdit;
+    let replyToWidth;
+
+    cardEdit.setAttribute('class', 'disable-edit');
+    cardDelete.setAttribute('class', 'disable-delete');
+    if (!isComment) {
+        cardDelete.setAttribute('class', 'disable-delete disableReply-delete');
+    }
+
+    const inputEditComment = document.createElement('textarea');
+    inputEditComment.setAttribute('class', 'edit-input gray-text');
+    if (isComment) {
+        inputEditComment.textContent = content.textContent;
+    } else {
+        inputEditComment.textContent = content.textContent;
+        replyingTo = document.getElementById('replyingTo' + jsonEditCommentReply.id);
+        replyToEdit = document.createElement('label');
+        replyToEdit.setAttribute('class', 'gray-text label');
+        replyToEdit.textContent = `@${jsonEditCommentReply.replyingTo}`;
+        cardMessage.appendChild(replyToEdit);
+        replyToWidth = replyToEdit.clientWidth - 10;
+        inputEditComment.style.textIndent = replyToWidth + 'px';
+        replyingTo.remove();
+    }
+    content.remove();
+
+    const updateButton = document.createElement('button');
+    updateButton.setAttribute('class', 'white-text update-button');
+    updateButton.textContent = "UPDATE";
+    updateButton.addEventListener("click", () => {
+        if (!isComment) {
+            cardMessage.appendChild(replyingTo);
+            replyToEdit.remove();
+        }
+        content.textContent = inputEditComment.value;
+        inputEditComment.remove();
+        cardMessage.appendChild(content);
+        updateButton.remove();
+        cardEdit.setAttribute('class', 'card-reply');
+        cardDelete.setAttribute('class', 'card-reply card-delete');
+        if (!isComment) {
+            cardDelete.setAttribute('class', 'card-reply card-delete-reply');
+        }
+    });
+    cardMessage.appendChild(inputEditComment);
+    cardBody.appendChild(updateButton);
+}
 
 function showData() {
     fetch('./data.json')
@@ -490,15 +549,11 @@ function showData() {
 
             data.comments.forEach(comment => {
                 createCommentHTML(comment);
-
                 comment.replies.forEach(reply => {
                     createResponseHTML(reply, comment.id);
                 });
-
             });
             createAddComment();
-
-            console.log(myJSONData);
         });
 }
 showData();
