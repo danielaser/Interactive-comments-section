@@ -73,7 +73,7 @@ function createCommentHTML(jsonElementComment) {
     const cardDelete = document.createElement('span');
     cardDelete.setAttribute('class', 'card-reply card-delete');
     cardDelete.addEventListener("click", () => {
-        deleteComment(jsonElementComment.id, true);
+        deleteComment(jsonElementComment.id, true, jsonElementComment.id, jsonElementComment.replies.id);
     });
 
     const deleteLink = document.createElement('p');
@@ -149,6 +149,7 @@ function createCommentHTML(jsonElementComment) {
     cardPrincipal.appendChild(userImage);
     cardPrincipal.appendChild(userName);
     cardPrincipal.appendChild(createdAt);
+
 }
 
 function createResponseHTML(jsonElementReply, parentCommentID) {
@@ -220,7 +221,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     const cardDelete = document.createElement('span');
     cardDelete.setAttribute('class', 'card-reply card-delete-reply');
     cardDelete.addEventListener("click", () => {
-        deleteComment(jsonElementReply.id, false);
+        deleteComment(jsonElementReply.id, false, parentCommentID, jsonElementReply.id);
     });
 
     const deleteLink = document.createElement('p');
@@ -332,14 +333,12 @@ function createAddComment() {
 
         let id = maxId + 1;
         let initialScore = 0;
-        let initialCreatedAt = " 1 minute ago";
         let inputCommentContent = document.getElementById('inputComment').value;
-        //document.getElementById('content').innerHTML = inputCommentContent;
 
         let newObj = {
             "id": id,
             "content": inputCommentContent,
-            "createdAt": initialCreatedAt,
+            "createdAt": addTimeAgo(),
             "score": initialScore,
             "user": {
                 "image": {
@@ -352,6 +351,7 @@ function createAddComment() {
         };
         myJSONData.comments.push(newObj);
         createCommentHTML(newObj);
+        localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
 
     commentContainer.appendChild(cardComment);
@@ -432,13 +432,15 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
         myJSONData.comments[index].replies.push(newReplyObj);
         createResponseHTML(newReplyObj, cardParentCommentID);
         cardEditReply.remove();
+
+        localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
     cardEditReply.appendChild(currentUserImage);
     cardEditReply.appendChild(inputReply);
     cardEditReply.appendChild(sendReplyButton);
 }
 
-function deleteComment(cardIdCommentxReplyDelete, isComment) {
+function deleteComment(cardIdCommentxReplyDelete, isComment, parentCommentID, childRpleyId) {
 
     const modal = document.getElementById('modal');
     modal.style.display = "block";
@@ -466,14 +468,23 @@ function deleteComment(cardIdCommentxReplyDelete, isComment) {
     modalDeleteButton.setAttribute('class', 'white-text modal-deleteButton');
     modalDeleteButton.textContent = `YES, DELETE`;
     modalDeleteButton.addEventListener("click", () => {
+        let index = myJSONData.comments.findIndex(object => {
+            return object.id === parentCommentID;
+        });
+        let indexReply = myJSONData.comments[index].replies.findIndex(object => {
+            return object.id === cardIdCommentxReplyDelete;
+        });
         if (isComment == true) {
             const card = document.getElementById('cardComment' + cardIdCommentxReplyDelete);
             card.remove();
+            myJSONData.comments.splice(index, 1);
         } else {
             const cardReplies = document.getElementById('cardReplies' + cardIdCommentxReplyDelete);
             cardReplies.remove();
+            myJSONData.comments[index].replies.splice(indexReply, 1);
         }
         modal.style.display = "none";
+        localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
 
     modal.appendChild(modalContent);
@@ -535,25 +546,66 @@ function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isCom
         if (!isComment) {
             cardDelete.setAttribute('class', 'card-reply card-delete-reply');
         }
+
+        localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
     cardMessage.appendChild(inputEditComment);
     cardBody.appendChild(updateButton);
 }
 
+function addTimeAgo() {
+    const DATE_UNITS = {
+        day: 86400,
+        hour: 3600,
+        minute: 60,
+        second: 1
+    }
+
+    const getSecondsDiff = timestamp => (Date.now() - timestamp) / 1000
+    const getUnitAndValueDate = (secondsElapsed) => {
+        for (const [unit, secondsInUnit] of Object.entries(DATE_UNITS)) {
+            if (secondsElapsed >= secondsInUnit || unit === "second") {
+                const value = Math.floor(secondsElapsed / secondsInUnit) * -1
+                return { value, unit }
+            }
+        }
+    }
+
+    const getTimeAgo = timestamp => {
+        const rtf = new Intl.RelativeTimeFormat()
+
+        const secondsElapsed = getSecondsDiff(timestamp)
+        const { value, unit } = getUnitAndValueDate(secondsElapsed)
+        return rtf.format(value, unit)
+    }
+
+    const timeNow = Date.now() - (1000);
+    return getTimeAgo(timeNow);
+}
+
 function showData() {
-    fetch('./data.json')
-        .then(response => response.json())
-        .then(data => {
-
-            myJSONData = data;
-
-            data.comments.forEach(comment => {
-                createCommentHTML(comment);
-                comment.replies.forEach(reply => {
-                    createResponseHTML(reply, comment.id);
-                });
+    const dataFromJson = localStorage.getItem("myJSONData");
+    if (dataFromJson == null) {
+        fetch('./data.json')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                myJSONData = data;
+                createInitialHTML();
             });
-            createAddComment();
-        });
+    } else {
+        myJSONData = JSON.parse(dataFromJson);
+        createInitialHTML();
+    }
 }
 showData();
+
+function createInitialHTML() {
+    myJSONData.comments.forEach(comment => {
+        createCommentHTML(comment);
+        comment.replies.forEach(reply => {
+            createResponseHTML(reply, comment.id);
+        });
+    });
+    createAddComment();
+}
