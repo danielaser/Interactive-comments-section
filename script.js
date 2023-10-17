@@ -25,6 +25,7 @@ function createCommentHTML(jsonElementComment) {
         const increase = document.getElementById("score" + jsonElementComment.id);
         increase.textContent = scoreValue;
         jsonElementComment.score = scoreValue;
+        localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
 
     const score = document.createElement('p');
@@ -42,6 +43,7 @@ function createCommentHTML(jsonElementComment) {
             const decrease = document.getElementById("score" + jsonElementComment.id);
             decrease.textContent = scoreValue;
             jsonElementComment.score = scoreValue;
+            localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
         }
     });
 
@@ -67,7 +69,47 @@ function createCommentHTML(jsonElementComment) {
 
     const createdAt = document.createElement('p');
     createdAt.setAttribute('class', 'gray-text');
-    createdAt.textContent = jsonElementComment.createdAt;
+    //CREATE AT DAY
+    if (jsonElementComment.createdAtDay != null) {
+        const timestamp = jsonElementComment.createdAtDay;
+        const date = new Date(timestamp);
+
+        today = new Date();
+        past = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+
+        function calcDate(date1, date2) {
+            var diff = Math.floor(date1.getTime() - date2.getTime());
+            let second = 1000;
+
+            let seconds = Math.floor(diff / second);
+            let minutes = Math.floor(seconds / 60);
+            let hours = Math.floor(minutes / 60);
+            let days = Math.floor(hours / 24);
+            let months = Math.floor(days / 31);
+            let years = Math.floor(months / 12);
+            let message;
+            if (years > 0) {
+                message = years + " year(s) ago ";
+            } else if (months > 0) {
+                message = months + " months ago";
+            } else if (days > 0) {
+                message = days + " days ago";
+            } else if (hours > 0) {
+                message = hours + " hours ago";
+            } else if (minutes > 0) {
+                message = minutes + " minutes ago";
+            } else if (seconds > 0) {
+                message = seconds + " seconds ago";
+            } else if (seconds == 0) {
+                message = " just now";
+            }
+            return message;
+        }
+        dateTimeAgo = calcDate(today, past);
+        createdAt.textContent = dateTimeAgo;
+    } else {
+        createdAt.textContent = jsonElementComment.createdAt;
+    }
 
     //Only when is my user DELETE
     const cardDelete = document.createElement('span');
@@ -88,7 +130,7 @@ function createCommentHTML(jsonElementComment) {
     const cardEdit = document.createElement('span');
     cardEdit.setAttribute('class', 'card-reply');
     cardEdit.addEventListener("click", () => {
-        editComment(cardBody, cardMessage, content, jsonElementComment, true, cardEdit, cardDelete);
+        editComment(cardBody, cardMessage, content, jsonElementComment, true, cardEdit, cardDelete, jsonElementComment.id);
     });
 
     const editLink = document.createElement('p');
@@ -149,7 +191,6 @@ function createCommentHTML(jsonElementComment) {
     cardPrincipal.appendChild(userImage);
     cardPrincipal.appendChild(userName);
     cardPrincipal.appendChild(createdAt);
-
 }
 
 function createResponseHTML(jsonElementReply, parentCommentID) {
@@ -173,6 +214,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
         const increase = document.getElementById("score" + jsonElementReply.id);
         increase.textContent = scoreValue;
         jsonElementReply.score = scoreValue;
+        localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
 
     const score = document.createElement('p');
@@ -190,6 +232,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
             const decrease = document.getElementById("score" + jsonElementReply.id);
             decrease.textContent = scoreValue;
             jsonElementReply.score = scoreValue;
+            localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
         }
     });
 
@@ -215,7 +258,47 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
 
     const createdAt = document.createElement('p');
     createdAt.setAttribute('class', 'gray-text');
-    createdAt.textContent = jsonElementReply.createdAt;
+    //CREATE AT DAY
+    if (jsonElementReply.createdAtDay != null) {
+        const timestamp = jsonElementReply.createdAtDay;
+        const date = new Date(timestamp);
+
+        today = new Date();
+        past = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+
+        function calcDate(date1, date2) {
+            var diff = Math.floor(date1.getTime() - date2.getTime());
+            let second = 1000;
+
+            let seconds = Math.floor(diff / second);
+            let minutes = Math.floor(seconds / 60);
+            let hours = Math.floor(minutes / 60);
+            let days = Math.floor(hours / 24);
+            let months = Math.floor(days / 31);
+            let years = Math.floor(months / 12);
+            let message;
+            if (years > 0) {
+                message = years + " year(s) ago ";
+            } else if (months > 0) {
+                message = months + " months ago";
+            } else if (days > 0) {
+                message = days + " days ago";
+            } else if (hours > 0) {
+                message = hours + " hours ago";
+            } else if (minutes > 0) {
+                message = minutes + " minutes ago";
+            } else if (seconds > 0) {
+                message = seconds + " seconds ago";
+            } else if (seconds == 0) {
+                message = " just now";
+            }
+            return message;
+        }
+        dateTimeAgo = calcDate(today, past);
+        createdAt.textContent = dateTimeAgo;
+    } else {
+        createdAt.textContent = jsonElementReply.createdAt;
+    }
 
     //Only when is my user DELETE
     const cardDelete = document.createElement('span');
@@ -236,7 +319,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     const cardEdit = document.createElement('span');
     cardEdit.setAttribute('class', 'card-reply');
     cardEdit.addEventListener("click", () => {
-        editComment(cardBody, cardMessage, content, jsonElementReply, false, cardEdit, cardDelete);
+        editComment(cardBody, cardMessage, content, jsonElementReply, false, cardEdit, cardDelete, parentCommentID);
     });
 
     const editLink = document.createElement('p');
@@ -334,11 +417,12 @@ function createAddComment() {
         let id = maxId + 1;
         let initialScore = 0;
         let inputCommentContent = document.getElementById('inputComment').value;
+        const timestamp = Date.now();
 
         let newObj = {
             "id": id,
             "content": inputCommentContent,
-            "createdAt": addTimeAgo(),
+            "createdAtDay": timestamp,
             "score": initialScore,
             "user": {
                 "image": {
@@ -409,13 +493,13 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
 
         let id = maxId + 1;
         let initialScore = 0;
-        let initialCreatedAt = " 1 minute ago";
         let inputreplyContent = document.getElementById('inputReply').value;
+        const timestamp = Date.now();
 
         let newReplyObj = {
             "id": id,
             "content": inputreplyContent,
-            "createdAt": initialCreatedAt,
+            "createdAtDay": timestamp,
             "score": initialScore,
             "replyingTo": userNameReplyJson,
             "user": {
@@ -432,7 +516,6 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
         myJSONData.comments[index].replies.push(newReplyObj);
         createResponseHTML(newReplyObj, cardParentCommentID);
         cardEditReply.remove();
-
         localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
     cardEditReply.appendChild(currentUserImage);
@@ -440,7 +523,7 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
     cardEditReply.appendChild(sendReplyButton);
 }
 
-function deleteComment(cardIdCommentxReplyDelete, isComment, parentCommentID, childRpleyId) {
+function deleteComment(cardIdCommentxReplyDelete, isComment, parentCommentID) {
 
     const modal = document.getElementById('modal');
     modal.style.display = "block";
@@ -500,7 +583,7 @@ function deleteComment(cardIdCommentxReplyDelete, isComment, parentCommentID, ch
     });
 }
 
-function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isComment, cardEdit, cardDelete) {
+function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isComment, cardEdit, cardDelete, parentCommentID) {
 
     let replyingTo;
     let replyToEdit;
@@ -546,41 +629,11 @@ function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isCom
         if (!isComment) {
             cardDelete.setAttribute('class', 'card-reply card-delete-reply');
         }
-
+        jsonEditCommentReply.content = content.textContent;
         localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
     });
     cardMessage.appendChild(inputEditComment);
     cardBody.appendChild(updateButton);
-}
-
-function addTimeAgo() {
-    const DATE_UNITS = {
-        day: 86400,
-        hour: 3600,
-        minute: 60,
-        second: 1
-    }
-
-    const getSecondsDiff = timestamp => (Date.now() - timestamp) / 1000
-    const getUnitAndValueDate = (secondsElapsed) => {
-        for (const [unit, secondsInUnit] of Object.entries(DATE_UNITS)) {
-            if (secondsElapsed >= secondsInUnit || unit === "second") {
-                const value = Math.floor(secondsElapsed / secondsInUnit) * -1
-                return { value, unit }
-            }
-        }
-    }
-
-    const getTimeAgo = timestamp => {
-        const rtf = new Intl.RelativeTimeFormat()
-
-        const secondsElapsed = getSecondsDiff(timestamp)
-        const { value, unit } = getUnitAndValueDate(secondsElapsed)
-        return rtf.format(value, unit)
-    }
-
-    const timeNow = Date.now() - (1000);
-    return getTimeAgo(timeNow);
 }
 
 function showData() {
@@ -589,7 +642,6 @@ function showData() {
         fetch('./data.json')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 myJSONData = data;
                 createInitialHTML();
             });
