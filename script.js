@@ -196,6 +196,7 @@ function createCommentHTML(jsonElementComment) {
 function createResponseHTML(jsonElementReply, parentCommentID) {
 
     const commentReplyContainer = document.getElementById('commentReplyContainer' + parentCommentID);
+    commentReplyContainer.setAttribute('class', 'commentReply-container');
 
     const cardReplies = document.createElement('div');
     cardReplies.setAttribute('class', 'card-replies');
@@ -468,14 +469,14 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
         commentReplyContainer = document.getElementById('commentReplyContainer' + cardIdCommentxReply);
         userName = document.getElementById('username' + cardIdCommentxReply);
         userNameReplyJson = userName.textContent;
-        commentReplyContainer.appendChild(cardEditReply);
+        commentReplyContainer.insertAdjacentElement("afterend", cardEditReply);
+
     } else {
         cardReplies = document.getElementById('cardReplies' + cardIdCommentxReply);
         userName = document.getElementById('userNameReply' + cardIdCommentxReply);
         userNameReplyJson = userName.textContent;
+        cardEditReply.setAttribute('class', 'card-comment card-editReply');
         cardReplies.insertAdjacentElement("afterend", cardEditReply);
-        cardEditReply.style.width = "85%";
-        cardEditReply.style.marginLeft = "auto";
     }
 
     const sendReplyButton = document.createElement('button');

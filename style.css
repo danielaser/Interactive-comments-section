@@ -118,9 +118,17 @@ h1 {
     width: 100%;
 }
 
+.commentReply-container {
+    left: 6%;
+    border-left: 3px solid hsl(223, 19%, 93%);
+    height: auto;
+    position: relative;
+    width: 94%;
+}
+
 .card-replies {
 
-    width: 85%;
+    width: inherit;
     display: flex;
     background-color: hsl(0, 0%, 100%);
     border-radius: 15px;
@@ -143,6 +151,11 @@ h1 {
     display: flex;
     background-color: hsl(0, 0%, 100%);
     border-radius: 15px;
+}
+
+.card-editReply {
+    margin-left: 6%;
+    width: 94%;
 }
 
 .comment-input {
