@@ -202,6 +202,7 @@ h1 {
     height: 2.5em;
     border: none;
     float: right;
+    margin-top: 0.6em;
 }
 
 .update-button:hover {
