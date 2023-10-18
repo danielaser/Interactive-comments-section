@@ -436,14 +436,8 @@ function createAddComment() {
     sendButton.setAttribute('class', 'white-text send-button');
     sendButton.textContent = "SEND";
     sendButton.addEventListener("click", () => {
-        let maxId = 0;
-        for (let i = 0; i < myJSONData.comments.length; i++) {
-            if (myJSONData.comments[i].id > maxId) {
-                maxId = myJSONData.comments[i].id;
-            }
-        }
 
-        let id = maxId + 1;
+        let id = getNewId();
         let initialScore = 0;
         let inputCommentContent = document.getElementById('inputComment').value;
         const timestamp = Date.now();
@@ -513,16 +507,8 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID, car
     sendReplyButton.setAttribute('class', 'white-text send-button');
     sendReplyButton.textContent = "REPLY";
     sendReplyButton.addEventListener("click", () => {
-        let maxId = 0;
-        for (let i = 0; i < myJSONData.comments.length; i++) {
-            for (let j = 0; j < myJSONData.comments[i].replies.length; j++) {
-                if (myJSONData.comments[i].replies[j].id > maxId) {
-                    maxId = myJSONData.comments[i].replies[j].id;
-                }
-            }
-        }
 
-        let id = maxId + 1;
+        let id = getNewId();
         let initialScore = 0;
         let inputreplyContent = document.getElementById('inputReply').value;
         const timestamp = Date.now();
@@ -666,6 +652,20 @@ function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isCom
     });
     cardMessage.appendChild(inputEditComment);
     cardBody.appendChild(updateButton);
+}
+
+function getNewId() {
+    let maxId = 0;
+    let commentsIdsArray = [];
+    for (let i = 0; i < myJSONData.comments.length; i++) {
+        commentsIdsArray.push(myJSONData.comments[i].id);
+        for (let j = 0; j < myJSONData.comments[i].replies.length; j++) {
+            commentsIdsArray.push(myJSONData.comments[i].replies[j].id);
+        }
+    }
+    commentsIdsArray.sort();
+    maxId = commentsIdsArray[commentsIdsArray.length - 1];
+    return maxId + 1;
 }
 
 function showData() {
