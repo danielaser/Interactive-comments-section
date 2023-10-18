@@ -271,6 +271,10 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     userName.id = 'userNameReply' + jsonElementReply.id;
     userName.textContent = jsonElementReply.user.username;
 
+    const currentUserContent = document.createElement('div');
+    currentUserContent.setAttribute('class', 'currentUser-content white-text');
+    currentUserContent.textContent = 'you';
+
     const createdAt = document.createElement('p');
     createdAt.setAttribute('class', 'gray-text');
     //CREATE AT DAY
@@ -404,6 +408,9 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     cardMessage.appendChild(content);
     cardPrincipal.appendChild(userImage);
     cardPrincipal.appendChild(userName);
+    if (jsonElementReply.user.username == "juliusomo") {
+        cardPrincipal.appendChild(currentUserContent);
+    }
     cardPrincipal.appendChild(createdAt);
 }
 
