@@ -250,6 +250,14 @@ h1 {
 
 /* Reply, Delete, Edit icons and buttons*/
 
+.currentUser-content {
+    background-color: hsl(238, 48%, 44%);
+    height: auto;
+    padding: 0.1em 0.3em;
+    margin-right: 0.5em;
+    border-radius: 2px;
+}
+
 .card-reply {
     display: flex;
 }
@@ -273,20 +281,16 @@ h1 {
 .disable-delete {
     pointer-events: none;
     display: flex;
-    margin-left: 12em;
+    margin-right: 1.5em;
     opacity: .5;
 }
 
-.disableReply-delete {
-    margin-left: 6em;
+.deleteEdit-content {
+    display: flex;
 }
 
 .card-delete {
-    margin-left: 12em;
-}
-
-.card-delete-reply {
-    margin-left: 6em;
+    margin-right: 1.5em;
 }
 
 .reply-icon {

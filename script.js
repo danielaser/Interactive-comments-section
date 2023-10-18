@@ -67,6 +67,10 @@ function createCommentHTML(jsonElementComment) {
     userName.setAttribute('class', 'dark-text');
     userName.textContent = jsonElementComment.user.username;
 
+    const currentUserContent = document.createElement('div');
+    currentUserContent.setAttribute('class', 'currentUser-content white-text');
+    currentUserContent.textContent = 'you';
+
     const createdAt = document.createElement('p');
     createdAt.setAttribute('class', 'gray-text');
     //CREATE AT DAY
@@ -110,6 +114,10 @@ function createCommentHTML(jsonElementComment) {
     } else {
         createdAt.textContent = jsonElementComment.createdAt;
     }
+
+    //Only when there are delete and edit
+    const cardDeleteEditContent = document.createElement('div');
+    cardDeleteEditContent.setAttribute('class', 'deleteEdit-content');
 
     //Only when is my user DELETE
     const cardDelete = document.createElement('span');
@@ -178,10 +186,11 @@ function createCommentHTML(jsonElementComment) {
     cardBody.appendChild(cardMessage);
     cardHead.appendChild(cardPrincipal);
     if (jsonElementComment.user.username == "juliusomo") {
-        cardHead.appendChild(cardDelete);
+        cardHead.appendChild(cardDeleteEditContent);
+        cardDeleteEditContent.appendChild(cardDelete);
         cardDelete.appendChild(deleteIcon);
         cardDelete.appendChild(deleteLink);
-        cardHead.appendChild(cardEdit);
+        cardDeleteEditContent.appendChild(cardEdit);
         cardEdit.appendChild(editIcon);
         cardEdit.appendChild(editLink);
     } else {
@@ -192,6 +201,9 @@ function createCommentHTML(jsonElementComment) {
     cardMessage.appendChild(content);
     cardPrincipal.appendChild(userImage);
     cardPrincipal.appendChild(userName);
+    if (jsonElementComment.user.username == "juliusomo") {
+        cardPrincipal.appendChild(currentUserContent);
+    }
     cardPrincipal.appendChild(createdAt);
 }
 
@@ -303,9 +315,13 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
         createdAt.textContent = jsonElementReply.createdAt;
     }
 
+    //Only when there are delete and edit
+    const cardDeleteEditContent = document.createElement('div');
+    cardDeleteEditContent.setAttribute('class', 'deleteEdit-content');
+
     //Only when is my user DELETE
     const cardDelete = document.createElement('span');
-    cardDelete.setAttribute('class', 'card-reply card-delete-reply');
+    cardDelete.setAttribute('class', 'card-reply card-delete');
     cardDelete.addEventListener("click", () => {
         deleteComment(jsonElementReply.id, false, parentCommentID, jsonElementReply.id);
     });
@@ -372,10 +388,11 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     cardBody.appendChild(cardMessage);
     cardHead.appendChild(cardPrincipal);
     if (jsonElementReply.user.username == "juliusomo") {
-        cardHead.appendChild(cardDelete);
+        cardHead.appendChild(cardDeleteEditContent);
+        cardDeleteEditContent.appendChild(cardDelete);
         cardDelete.appendChild(deleteIcon);
         cardDelete.appendChild(deleteLink);
-        cardHead.appendChild(cardEdit);
+        cardDeleteEditContent.appendChild(cardEdit);
         cardEdit.appendChild(editIcon);
         cardEdit.appendChild(editLink);
     } else {
@@ -600,7 +617,7 @@ function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isCom
     cardEdit.setAttribute('class', 'disable-edit');
     cardDelete.setAttribute('class', 'disable-delete');
     if (!isComment) {
-        cardDelete.setAttribute('class', 'disable-delete disableReply-delete');
+        cardDelete.setAttribute('class', 'disable-delete');
     }
 
     const inputEditComment = document.createElement('textarea');
@@ -635,7 +652,7 @@ function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isCom
         cardEdit.setAttribute('class', 'card-reply');
         cardDelete.setAttribute('class', 'card-reply card-delete');
         if (!isComment) {
-            cardDelete.setAttribute('class', 'card-reply card-delete-reply');
+            cardDelete.setAttribute('class', 'card-reply card-delete');
         }
         jsonEditCommentReply.content = content.textContent;
         localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
