@@ -441,6 +441,7 @@ function createAddComment() {
         myJSONData.comments.push(newObj);
         createCommentHTML(newObj);
         localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
+        inputComment.value = "";
     });
 
     commentContainer.appendChild(cardComment);
