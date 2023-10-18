@@ -120,6 +120,7 @@ function createCommentHTML(jsonElementComment) {
 
     const deleteLink = document.createElement('p');
     deleteLink.setAttribute('class', 'red-text');
+    deleteLink.id = 'deleteLink' + jsonElementComment.id;
     deleteLink.textContent = `Delete`;
 
     const deleteIcon = document.createElement('image');
@@ -130,11 +131,12 @@ function createCommentHTML(jsonElementComment) {
     const cardEdit = document.createElement('span');
     cardEdit.setAttribute('class', 'card-reply');
     cardEdit.addEventListener("click", () => {
-        editComment(cardBody, cardMessage, content, jsonElementComment, true, cardEdit, cardDelete, jsonElementComment.id);
+        editComment(cardBody, cardMessage, content, jsonElementComment, true, cardEdit, cardDelete);
     });
 
     const editLink = document.createElement('p');
     editLink.setAttribute('class', 'blue-text');
+    editLink.id = 'editLink' + jsonElementComment.id;
     editLink.textContent = `Edit`;
 
     const editIcon = document.createElement('image');
@@ -144,7 +146,7 @@ function createCommentHTML(jsonElementComment) {
     const cardReply = document.createElement('span');
     cardReply.setAttribute('class', 'card-reply');
     cardReply.addEventListener("click", () => {
-        createAddReply(jsonElementComment.id, true, jsonElementComment.id);
+        createAddReply(jsonElementComment.id, true, jsonElementComment.id, cardReply);
     });
 
     const replyLink = document.createElement('p');
@@ -310,6 +312,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
 
     const deleteLink = document.createElement('p');
     deleteLink.setAttribute('class', 'red-text');
+    deleteLink.id = 'deleteLink' + jsonElementReply.id;
     deleteLink.textContent = `Delete`;
 
     const deleteIcon = document.createElement('image');
@@ -320,11 +323,12 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     const cardEdit = document.createElement('span');
     cardEdit.setAttribute('class', 'card-reply');
     cardEdit.addEventListener("click", () => {
-        editComment(cardBody, cardMessage, content, jsonElementReply, false, cardEdit, cardDelete, parentCommentID);
+        editComment(cardBody, cardMessage, content, jsonElementReply, false, cardEdit, cardDelete);
     });
 
     const editLink = document.createElement('p');
     editLink.setAttribute('class', 'blue-text');
+    editLink.id = 'editLink' + jsonElementReply.id;
     editLink.textContent = `Edit`;
 
     const editIcon = document.createElement('image');
@@ -334,7 +338,7 @@ function createResponseHTML(jsonElementReply, parentCommentID) {
     const cardReply = document.createElement('span');
     cardReply.setAttribute('class', 'card-reply');
     cardReply.addEventListener("click", () => {
-        createAddReply(jsonElementReply.id, false, parentCommentID);
+        createAddReply(jsonElementReply.id, false, parentCommentID, cardReply);
     });
 
     const replyLink = document.createElement('p');
@@ -445,11 +449,12 @@ function createAddComment() {
     cardComment.appendChild(sendButton);
 }
 
-function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
+function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID, cardReply) {
 
     let commentReplyContainer;
     let cardReplies;
 
+    cardReply.setAttribute('class', 'disable-reply');
     const cardEditReply = document.createElement('div');
     cardEditReply.setAttribute('class', 'card-comment');
 
@@ -518,6 +523,7 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID) {
         createResponseHTML(newReplyObj, cardParentCommentID);
         cardEditReply.remove();
         localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
+        cardReply.setAttribute('class', 'card-reply');
     });
     cardEditReply.appendChild(currentUserImage);
     cardEditReply.appendChild(inputReply);
@@ -584,7 +590,7 @@ function deleteComment(cardIdCommentxReplyDelete, isComment, parentCommentID) {
     });
 }
 
-function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isComment, cardEdit, cardDelete, parentCommentID) {
+function editComment(cardBody, cardMessage, content, jsonEditCommentReply, isComment, cardEdit, cardDelete) {
 
     let replyingTo;
     let replyToEdit;

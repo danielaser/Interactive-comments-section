@@ -44,6 +44,12 @@ body {
     color: hsl(222, 8%, 60%);
 }
 
+.grayBold-text {
+    font-size: 16px;
+    font-family: 'RubikBold', sans-serif;
+    color: hsl(222, 8%, 60%);
+}
+
 .dark-text {
     font-size: 16px;
     font-family: 'RubikBold', sans-serif;
@@ -252,15 +258,23 @@ h1 {
     cursor: pointer;
 }
 
+.disable-reply {
+    pointer-events: none;
+    display: flex;
+    opacity: .5;
+}
+
 .disable-edit {
     pointer-events: none;
     display: flex;
+    opacity: .5;
 }
 
 .disable-delete {
     pointer-events: none;
     display: flex;
     margin-left: 12em;
+    opacity: .5;
 }
 
 .disableReply-delete {
