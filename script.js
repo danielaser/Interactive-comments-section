@@ -456,8 +456,12 @@ function createAddComment() {
             },
             "replies": []
         };
-        myJSONData.comments.push(newObj);
-        createCommentHTML(newObj);
+        if (trimfield(inputCommentContent) !== '') {
+            myJSONData.comments.push(newObj);
+            createCommentHTML(newObj);
+        } else {
+            alert("Please add message");
+        }
         localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
         inputComment.value = "";
     });
@@ -530,9 +534,13 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID, car
         const index = myJSONData.comments.findIndex(object => {
             return object.id === cardParentCommentID;
         });
-        myJSONData.comments[index].replies.push(newReplyObj);
-        createResponseHTML(newReplyObj, cardParentCommentID);
-        cardEditReply.remove();
+        if (trimfield(inputreplyContent) != '') {
+            myJSONData.comments[index].replies.push(newReplyObj);
+            createResponseHTML(newReplyObj, cardParentCommentID);
+            cardEditReply.remove();
+        } else {
+            alert("Please add message");
+        }
         localStorage.setItem("myJSONData", JSON.stringify(myJSONData));
         cardReply.setAttribute('class', 'card-reply');
     });
@@ -666,6 +674,11 @@ function getNewId() {
     commentsIdsArray.sort();
     maxId = commentsIdsArray[commentsIdsArray.length - 1];
     return maxId + 1;
+}
+
+//Do not add space as a comment or reply
+function trimfield(str) {
+    return str.replace(/^\s+|\s+$/g, '');
 }
 
 function showData() {

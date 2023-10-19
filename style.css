@@ -144,6 +144,7 @@ h1 {
 
 .content {
     display: contents;
+    white-space: pre-wrap;
 }
 
 /* button and input style */
