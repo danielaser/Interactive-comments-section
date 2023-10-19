@@ -423,7 +423,7 @@ function createAddComment() {
     cardComment.id = myJSONData.comments.id;
 
     const currentUserImage = document.createElement('img');
-    currentUserImage.setAttribute('class', 'user-image');
+    currentUserImage.setAttribute('class', 'user-image user-imageComment');
     currentUserImage.setAttribute('src', myJSONData.currentUser.image.png);
     currentUserImage.alt = "Ilustration fron Frontend Mentor";
 
@@ -482,7 +482,7 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID, car
     cardEditReply.setAttribute('class', 'card-comment');
 
     const currentUserImage = document.createElement('img');
-    currentUserImage.setAttribute('class', 'user-image');
+    currentUserImage.setAttribute('class', 'user-image user-imageComment');
     currentUserImage.setAttribute('src', myJSONData.currentUser.image.png);
     currentUserImage.alt = "Ilustration fron Frontend Mentor";
 

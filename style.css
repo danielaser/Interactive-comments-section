@@ -394,3 +394,163 @@ h1 {
 .attribution a {
     color: hsl(228, 45%, 44%);
 }
+
+/* Responsive style */
+@media only screen and (max-width: 1340px) {
+    .container {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .container {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        width: 60%;
+    }
+
+    .card {
+        flex-direction: column-reverse;
+        padding: 1em;
+        position: relative;
+    }
+
+    .card-replies {
+        flex-direction: column-reverse;
+        padding: 1em;
+        position: relative;
+    }
+
+    .card-box {
+        margin: 0;
+        display: flex;
+        width: 6em;
+        height: 3em;
+    }
+
+    .plus-icon {
+        top: 50%;
+        left: 20%;
+    }
+
+    .minus-icon {
+        top: 50%;
+        left: 80%;
+    }
+
+    .card-reply {
+        right: 8%;
+        position: absolute;
+        top: 82%;
+    }
+
+    .disable-reply {
+        right: 8%;
+        position: absolute;
+        top: 82%;
+    }
+
+    .card-body {
+        width: 100%;
+        margin: 1.5em 0 1.5em 0em;
+    }
+
+    .deleteEdit-content {
+        right: 8%;
+        position: absolute;
+        top: 82%;
+    }
+
+    .card-delete {
+        margin-right: 4.5em;
+    }
+
+    .card-comment {
+        padding-bottom: 4em;
+        height: 10em;
+    }
+
+    .comment-input {
+        width: 100%;
+    }
+
+    .user-imageComment {
+        position: absolute;
+        margin-top: 5em;
+        right: 71%;
+    }
+
+    .send-button {
+        position: absolute;
+        margin-top: 5em;
+        left: 65%;
+    }
+
+    .update-button {
+        width: 25%;
+    }
+
+    .edit-input {
+        height: 10em;
+    }
+
+    .card-editReply .send-button {
+        left: 74%;
+        width: 20%;
+    }
+
+    .card-editReply .user-imageComment {
+        right: 79%;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .container {
+        width: 70%;
+    }
+
+    .user-imageComment {
+        right: 73%;
+    }
+
+    .send-button {
+        left: 68%;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        width: 90%;
+    }
+
+    .user-imageComment {
+        right: 81%;
+    }
+
+    .send-button {
+        left: 76%;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .container {
+        width: 100%;
+    }
+
+    .send-button {
+        width: 16%;
+    }
+
+    .card-editReply .send-button {
+        left: 72%;
+    }
+
+    .card-editReply .user-imageComment {
+        right: 75%;
+    }
+}
