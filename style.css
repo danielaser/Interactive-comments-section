@@ -504,11 +504,11 @@ h1 {
     }
 
     .card-editReply .user-imageComment {
-        right: 79%;
+        right: 77%;
     }
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 590px) {
     .container {
         width: 70%;
     }
@@ -520,7 +520,6 @@ h1 {
     .send-button {
         left: 68%;
     }
-
 }
 
 @media screen and (max-width: 480px) {
