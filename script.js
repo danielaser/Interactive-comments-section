@@ -487,7 +487,7 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID, car
     currentUserImage.alt = "Ilustration fron Frontend Mentor";
 
     const inputReply = document.createElement('textarea');
-    inputReply.id = 'inputReply';
+    inputReply.id = 'inputReply' + cardIdCommentxReply;
     inputReply.setAttribute('class', 'comment-input gray-text');
     inputReply.placeholder = "Add a reply...";
 
@@ -514,7 +514,7 @@ function createAddReply(cardIdCommentxReply, isComment, cardParentCommentID, car
 
         let id = getNewId();
         let initialScore = 0;
-        let inputreplyContent = document.getElementById('inputReply').value;
+        let inputreplyContent = document.getElementById('inputReply' + cardIdCommentxReply).value;
         const timestamp = Date.now();
 
         let newReplyObj = {
